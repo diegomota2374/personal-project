@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,25 +13,24 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/Auth/AuthContext";
 
 const pages = [
   { name: "Home", href: "/" },
   { name: "DashBoard", href: "/dashboard" },
 ];
 const settings = [
-  { name: "login", href: "/login" },
-  { name: "Account", href: "/" },
-  { name: "Dashboard", href: "/" },
-  { name: "Logout", href: "/" },
+  { name: "Entrar", href: "/login" },
+  { name: "Novo Usuário", href: "/register" },
+  { name: "DashBoard", href: "/dashboard" },
+  { name: "Sair", href: "/login/:logout" },
 ];
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const auth = useContext(AuthContext);
+
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -148,11 +147,13 @@ function ResponsiveAppBar() {
               </Link>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt="Remy Sharp"
+                  src="/static/images/avatar/avatar01.jpg"
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -172,11 +173,36 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                  <Link to={setting.href} style={{ textDecoration: "none" }}>
-                    <Typography textAlign="center">{setting.name}</Typography>
-                  </Link>
-                </MenuItem>
+                <Box>
+                  {auth.user ? (
+                    <Link to={setting.href} style={{ textDecoration: "none" }}>
+                      <MenuItem
+                        key={setting.name}
+                        onClick={handleCloseUserMenu}
+                      >
+                        <Typography  textAlign="center">
+                          {setting.name}
+                        </Typography>
+                      </MenuItem>
+                    </Link>
+                  ) : (
+                    setting.name !== "Novo Usuário" && (
+                      <Link
+                        to={setting.href}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <MenuItem
+                          key={setting.name}
+                          onClick={handleCloseUserMenu}
+                        >
+                          <Typography  textAlign="center">
+                            {setting.name}
+                          </Typography>
+                        </MenuItem>
+                      </Link>
+                    )
+                  )}
+                </Box>
               ))}
             </Menu>
           </Box>

@@ -11,15 +11,15 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
 const theme = createTheme();
 
 export default function Login() {
   const auth = useContext(AuthContext);
   const navegate = useNavigate();
+  const { logout } = useParams();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,18 +27,30 @@ export default function Login() {
     const email = data.get("email")?.toString();
     const password = data.get("password")?.toString();
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+      email,
+      password,
     });
     if (email && password) {
       const isLogged = await auth.signin(email, password);
       if (isLogged) {
         navegate("/");
       } else {
-        alert("nao deu certo");
+        alert("senha ou email não conferem");
       }
     }
   };
+
+  const handleLogout = async () => {
+    const lognout = await auth.signout();
+    return lognout;
+  };
+  useEffect(() => {
+    if (logout) {
+      console.log("logout aqui");
+      handleLogout();
+      navegate("/");
+    }
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,7 +68,7 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Entrar
           </Typography>
           <Box
             component="form"
@@ -83,10 +95,6 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
             />
             <Button
               type="submit"

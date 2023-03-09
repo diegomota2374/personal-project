@@ -5,6 +5,7 @@ import DashBoard from "./pages/Dashboard";
 import ResponsiveAppBar from "./components/appBar";
 import { RequireAuth } from "./contexts/Auth/RequireAuth";
 import Login from "./pages/Login";
+import Register from "./pages/register";
 
 function App() {
   return (
@@ -28,6 +29,15 @@ function App() {
           }
         />
         <Route path="/login" element={<Login />} />
+        <Route path="/login/:logout" element={<Login />} />
+        <Route
+          path="/register"
+          element={
+            <RequireAuth>
+              <Register />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </Box>
   );
