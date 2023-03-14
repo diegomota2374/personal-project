@@ -37,14 +37,17 @@ const checkPassword = async (req, res, next) => {
 const validateUserExists = async (req, res, next) => {
   const user = await UserModel.findOne({ email: req.body.email });
   if (user) {
-    return res.status(422).json({ msg: "por favor, utilize outro email" });
+    const email = "emailExist";
+    return res
+      .status(207)
+      .json({ msg: "por favor, utilize outro email", email });
   }
   next();
 };
 const validateUserNotExists = async (req, res, next) => {
   const user = await UserModel.findOne({ email: req.body.email });
   if (!user) {
-    return res.status(422).json({ msg: "Usuario não encontrado" });
+    return res.status(404).json({ msg: "Usuario não encontrado" });
   }
   next();
 };
@@ -57,7 +60,7 @@ const validateToken = async (req, res, next) => {
   }
   try {
     jwt.verify(token, secret);
-    res.status(200).json({ msg: "token valido"});
+    res.status(200).json({ msg: "token valido" });
   } catch (error) {
     res.status(400).json({ msg: "token invalido" });
   }

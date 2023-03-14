@@ -2,10 +2,12 @@ import { Box } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import DashBoard from "./pages/Dashboard";
-import ResponsiveAppBar from "./components/appBar";
+import { ResponsiveAppBar } from "./components/appBar";
 import { RequireAuth } from "./contexts/Auth/RequireAuth";
 import Login from "./pages/Login";
 import Register from "./pages/register";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
         alignerItem: "center",
       }}
     >
+      <ToastContainer />
       <ResponsiveAppBar />
       <Routes>
         <Route path="/" element={<Home />} />

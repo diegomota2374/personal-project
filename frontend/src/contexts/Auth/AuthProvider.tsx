@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useApi } from "../../hooks/useAPI";
 import { User } from "../../types/User";
 import { AuthContext } from "./AuthContext";
@@ -29,10 +30,23 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
     return false;
   };
+  const register = async (name: string, email: string, password: string) => {
+    const data = await api.register(name, email, password);
+    if (data.token) {
+      setUser(data.token);
+      setToken(data.token);
+      return true;
+    } else if (data.email) {
+      toast.error("Este email já foi cadastrado");
+      return false;
+    }
+    return false;
+  };
   const signout = async () => {
     await api.logout();
     setUser(null);
     setToken("");
+    toast.success("Desconectado com sucesso!");
   };
 
   const setToken = (token: string) => {
@@ -40,7 +54,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signin, signout }}>
+    <AuthContext.Provider value={{ user, signin, signout, register }}>
       {children}
     </AuthContext.Provider>
   );

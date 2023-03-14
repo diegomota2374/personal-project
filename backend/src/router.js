@@ -5,11 +5,9 @@ const userMiddleware = require("./middlewares/userMiddlewares");
 
 router.post(
   "/auth/register",
-  userMiddleware.validateToken,
   userMiddleware.validateFieldName,
   userMiddleware.validateFieldEmail,
   userMiddleware.validateFieldPassword,
-  userMiddleware.validateConfirmPassword,
   userMiddleware.validateUserExists,
   userController.userRegister
 );

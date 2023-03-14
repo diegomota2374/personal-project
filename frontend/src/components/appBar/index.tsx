@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
+import { memo } from "react";
 
 const pages = [
   { name: "Home", href: "/" },
@@ -26,7 +27,7 @@ const settings = [
   { name: "Sair", href: "/login/:logout" },
 ];
 
-function ResponsiveAppBar() {
+const responsiveAppBarComponent = () => {
   const auth = useContext(AuthContext);
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -173,14 +174,13 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <Box>
+                <Box key={setting.name}>
                   {auth.user ? (
                     <Link to={setting.href} style={{ textDecoration: "none" }}>
                       <MenuItem
-                        key={setting.name}
                         onClick={handleCloseUserMenu}
                       >
-                        <Typography  textAlign="center">
+                        <Typography textAlign="center">
                           {setting.name}
                         </Typography>
                       </MenuItem>
@@ -192,10 +192,9 @@ function ResponsiveAppBar() {
                         style={{ textDecoration: "none" }}
                       >
                         <MenuItem
-                          key={setting.name}
                           onClick={handleCloseUserMenu}
                         >
-                          <Typography  textAlign="center">
+                          <Typography textAlign="center">
                             {setting.name}
                           </Typography>
                         </MenuItem>
@@ -210,5 +209,5 @@ function ResponsiveAppBar() {
       </Container>
     </AppBar>
   );
-}
-export default ResponsiveAppBar;
+};
+export const ResponsiveAppBar = memo(responsiveAppBarComponent);

@@ -4,6 +4,7 @@ const userModel = require("../models/UserModel");
 
 const userRegister = async (req, res) => {
   const { name, email, password } = req.body;
+  const created_at = Date(Date.now);
 
   const salt = await bcrypt.genSalt(12);
   const passwordHash = await bcrypt.hash(password, salt);
@@ -12,10 +13,21 @@ const userRegister = async (req, res) => {
     name,
     email,
     password: passwordHash,
+    created_at
   });
   try {
     await user.save();
-    res.status(201).json({ msg: "Usuario criado com sucesso" });
+
+    const users = await userModel.findOne({ email: req.body.email });
+
+    const secret = process.env.SECRET;
+    const token = jwt.sign(
+      {
+        id: users.id,
+      },
+      secret
+    );
+    res.status(201).json({ msg: "Usuario criado com sucesso", token });
   } catch (error) {
     console.log(error);
     res.status(500).json({

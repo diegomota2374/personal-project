@@ -2,8 +2,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -14,39 +12,54 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
-const theme = createTheme();
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { User } from "../../types/User";
+
+const validateSchema = yup.object().shape({
+  email: yup.string().required("Email é um campo obrigatório").email(),
+  password: yup.string().required("Senha é um campo obrigatório"),
+});
 
 export default function Login() {
-  const auth = useContext(AuthContext);
+  const theme = createTheme();
+
+  const { signin, signout } = useContext(AuthContext);
+
   const navegate = useNavigate();
+
   const { logout } = useParams();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email")?.toString();
-    const password = data.get("password")?.toString();
-    console.log({
-      email,
-      password,
-    });
-    if (email && password) {
-      const isLogged = await auth.signin(email, password);
-      if (isLogged) {
-        navegate("/");
-      } else {
-        alert("senha ou email não conferem");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(validateSchema) });
+
+  const onSubmit = async (data: User) => {
+    if (data.email && data.password) {
+      try {
+        const isLogged = await signin(data.email, data.password);
+        if (isLogged) {
+          navegate("/");
+          toast.success("Login realizado com sucesso!");
+        } else {
+          toast.error("senha ou email não conferem");
+        }
+      } catch {
+        toast.error("senha ou email não conferem");
       }
     }
   };
 
-  const handleLogout = async () => {
-    const lognout = await auth.signout();
-    return lognout;
-  };
   useEffect(() => {
+    const handleLogout = async () => {
+      const lognout = await signout();
+      return lognout;
+    };
     if (logout) {
-      console.log("logout aqui");
       handleLogout();
       navegate("/");
     }
@@ -72,26 +85,32 @@ export default function Login() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             noValidate
             sx={{ mt: 1 }}
           >
             <TextField
+              {...register("email")}
+              error={!!errors.email?.message}
+              helperText={errors.email?.message?.toString() || " "}
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
             />
             <TextField
+              {...register("password")}
+              error={!!errors.password?.message}
+              helperText={errors.password?.message?.toString() || " "}
               margin="normal"
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Senha"
               type="password"
               id="password"
               autoComplete="current-password"
