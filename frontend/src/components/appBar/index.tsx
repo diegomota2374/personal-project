@@ -18,11 +18,10 @@ import { memo } from "react";
 
 const pages = [
   { name: "Home", href: "/" },
-  { name: "DashBoard", href: "/dashboard" },
 ];
 const settings = [
   { name: "Entrar", href: "/login" },
-  { name: "Novo Usuário", href: "/register" },
+  { name: "Cadastre-se", href: "/register" },
   { name: "DashBoard", href: "/dashboard" },
   { name: "Sair", href: "/login/:logout" },
 ];
@@ -186,7 +185,7 @@ const responsiveAppBarComponent = () => {
                       </MenuItem>
                     </Link>
                   ) : (
-                    setting.name !== "Novo Usuário" && (
+                    setting.name !== "DashBoard" && setting.name !== "Sair"  && (
                       <Link
                         to={setting.href}
                         style={{ textDecoration: "none" }}

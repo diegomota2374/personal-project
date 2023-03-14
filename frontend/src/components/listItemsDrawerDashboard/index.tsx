@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -9,9 +9,10 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Fragment } from 'react';
 
 export const mainListItems = (
-  <React.Fragment>
+  <Fragment>
     <ListItemButton>
       <ListItemIcon>
         <DashboardIcon />
@@ -42,11 +43,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Integrations" />
     </ListItemButton>
-  </React.Fragment>
+  </Fragment>
 );
 
 export const secondaryListItems = (
-  <React.Fragment>
+  <Fragment>
     <ListSubheader component="div" inset>
       Saved reports
     </ListSubheader>
@@ -68,5 +69,5 @@ export const secondaryListItems = (
       </ListItemIcon>
       <ListItemText primary="Year-end sale" />
     </ListItemButton>
-  </React.Fragment>
+  </Fragment>
 );

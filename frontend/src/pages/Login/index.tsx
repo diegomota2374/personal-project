@@ -63,7 +63,7 @@ export default function Login() {
       handleLogout();
       navegate("/");
     }
-  });
+  },[]);
 
   return (
     <ThemeProvider theme={theme}>

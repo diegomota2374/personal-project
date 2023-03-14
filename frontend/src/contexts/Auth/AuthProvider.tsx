@@ -46,7 +46,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     await api.logout();
     setUser(null);
     setToken("");
-    toast.success("Desconectado com sucesso!");
   };
 
   const setToken = (token: string) => {

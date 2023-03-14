@@ -32,15 +32,15 @@ function App() {
           }
         />
         <Route path="/login" element={<Login />} />
-        <Route path="/login/:logout" element={<Login />} />
         <Route
-          path="/register"
+          path="/login/:logout"
           element={
             <RequireAuth>
-              <Register />
+              <Login />
             </RequireAuth>
           }
         />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Box>
   );
