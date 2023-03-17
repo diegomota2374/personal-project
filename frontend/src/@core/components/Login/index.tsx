@@ -65,11 +65,7 @@ const Login = () => {
       handleLogout();
       router.push("/");
     }
-<<<<<<< HEAD:frontend/src/pages/Login/index.tsx
-  },[]);
-=======
   }); */
->>>>>>> next-fontend:frontend/src/@core/components/Login/index.tsx
 
   return (
     <ThemeProvider theme={theme}>

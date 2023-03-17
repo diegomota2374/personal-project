@@ -20,15 +20,8 @@ const pages = [
   { name: "Home", href: "/" },
 ];
 const settings = [
-<<<<<<< HEAD:frontend/src/components/appBar/index.tsx
-  { name: "Entrar", href: "/login" },
-  { name: "Cadastre-se", href: "/register" },
-  { name: "DashBoard", href: "/dashboard" },
-  { name: "Sair", href: "/login/:logout" },
-=======
   { name: "Novo Usuário", href: "/Register" },
   { name: "Sair", href: "/Login/Logout" },
->>>>>>> next-fontend:frontend/src/@core/components/appBar/index.tsx
 ];
 
 const responsiveAppBarComponent = () => {
@@ -191,11 +184,7 @@ const responsiveAppBarComponent = () => {
                       </MenuItem>
                     </Link>
                   ) : (
-<<<<<<< HEAD:frontend/src/components/appBar/index.tsx
-                    setting.name !== "DashBoard" && setting.name !== "Sair"  && (
-=======
                     setting.name !== "Entrar" && (
->>>>>>> next-fontend:frontend/src/@core/components/appBar/index.tsx
                       <Link
                         href={setting.href}
                         style={{ textDecoration: "none" }}
