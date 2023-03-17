@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useApi } from "../../hooks/useAPI";
-import { User } from "../../types/User";
+import { User } from "../../../types/User";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {

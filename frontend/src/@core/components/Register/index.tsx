@@ -6,6 +6,7 @@ import {
   Container,
   createTheme,
   CssBaseline,
+  Grid,
   TextField,
   ThemeProvider,
   Typography,
@@ -13,11 +14,12 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import { User } from "../../types/User";
+import { User } from "../../../types/User";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Link from "@mui/material/Link";
 
 const theme = createTheme();
 
@@ -28,10 +30,9 @@ const validateSchema = yup.object().shape({
   passwordConfirm: yup.string().required("Confirmação de senha é obrigatório"),
 });
 
-export default function Register() {
+const Register = () => {
   const auth = useContext(AuthContext);
-
-  const navegate = useNavigate();
+  const router = useRouter();
 
   const {
     register,
@@ -48,7 +49,7 @@ export default function Register() {
       } else {
         const register = await auth.register(name, email, password);
         if (register) {
-          navegate("/");
+          router.push("/");
           toast.success("Usuário criado com sucesso!");
         } else {
           toast.error("Não foi possível criar usuário");
@@ -140,9 +141,17 @@ export default function Register() {
             >
               Registrar
             </Button>
+            <Grid container>
+              <Grid item xs>
+              <Link href="./Login" variant="body2">
+                  {"Conecte-se"}
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>
     </ThemeProvider>
   );
 }
+export default Register;

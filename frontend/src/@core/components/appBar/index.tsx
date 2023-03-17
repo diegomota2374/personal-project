@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { memo } from "react";
 
@@ -20,10 +20,15 @@ const pages = [
   { name: "Home", href: "/" },
 ];
 const settings = [
+<<<<<<< HEAD:frontend/src/components/appBar/index.tsx
   { name: "Entrar", href: "/login" },
   { name: "Cadastre-se", href: "/register" },
   { name: "DashBoard", href: "/dashboard" },
   { name: "Sair", href: "/login/:logout" },
+=======
+  { name: "Novo Usuário", href: "/Register" },
+  { name: "Sair", href: "/Login/Logout" },
+>>>>>>> next-fontend:frontend/src/@core/components/appBar/index.tsx
 ];
 
 const responsiveAppBarComponent = () => {
@@ -101,7 +106,7 @@ const responsiveAppBarComponent = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Link to={page.href} style={{ textDecoration: "none" }}>
+                  <Link href={page.href} style={{ textDecoration: "none" }}>
                     {page.name}
                   </Link>
                 </MenuItem>
@@ -130,7 +135,7 @@ const responsiveAppBarComponent = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Link
-                to={page.href}
+                href={page.href}
                 key={page.name}
                 style={{ textDecoration: "none" }}
               >
@@ -175,24 +180,27 @@ const responsiveAppBarComponent = () => {
               {settings.map((setting) => (
                 <Box key={setting.name}>
                   {auth.user ? (
-                    <Link to={setting.href} style={{ textDecoration: "none" }}>
-                      <MenuItem
-                        onClick={handleCloseUserMenu}
-                      >
+                    <Link
+                      href={setting.href}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <MenuItem onClick={handleCloseUserMenu}>
                         <Typography textAlign="center">
                           {setting.name}
                         </Typography>
                       </MenuItem>
                     </Link>
                   ) : (
+<<<<<<< HEAD:frontend/src/components/appBar/index.tsx
                     setting.name !== "DashBoard" && setting.name !== "Sair"  && (
+=======
+                    setting.name !== "Entrar" && (
+>>>>>>> next-fontend:frontend/src/@core/components/appBar/index.tsx
                       <Link
-                        to={setting.href}
+                        href={setting.href}
                         style={{ textDecoration: "none" }}
                       >
-                        <MenuItem
-                          onClick={handleCloseUserMenu}
-                        >
+                        <MenuItem onClick={handleCloseUserMenu}>
                           <Typography textAlign="center">
                             {setting.name}
                           </Typography>

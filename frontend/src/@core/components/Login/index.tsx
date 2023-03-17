@@ -11,26 +11,26 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { User } from "../../types/User";
+import { User } from "../../../types/User";
 
 const validateSchema = yup.object().shape({
   email: yup.string().required("Email é um campo obrigatório").email(),
   password: yup.string().required("Senha é um campo obrigatório"),
 });
 
-export default function Login() {
+const Login = () => {
   const theme = createTheme();
 
   const { signin, signout } = useContext(AuthContext);
 
-  const navegate = useNavigate();
+  const router = useRouter();
 
-  const { logout } = useParams();
+  const { index } = router.query;
 
   const {
     register,
@@ -43,7 +43,7 @@ export default function Login() {
       try {
         const isLogged = await signin(data.email, data.password);
         if (isLogged) {
-          navegate("/");
+          router.push("/");
           toast.success("Login realizado com sucesso!");
         } else {
           toast.error("senha ou email não conferem");
@@ -53,17 +53,23 @@ export default function Login() {
       }
     }
   };
+ 
 
+  /* console.log("index " + index);
   useEffect(() => {
     const handleLogout = async () => {
       const lognout = await signout();
       return lognout;
     };
-    if (logout) {
+    if (index === "Logout") {
       handleLogout();
-      navegate("/");
+      router.push("/");
     }
+<<<<<<< HEAD:frontend/src/pages/Login/index.tsx
   },[]);
+=======
+  }); */
+>>>>>>> next-fontend:frontend/src/@core/components/Login/index.tsx
 
   return (
     <ThemeProvider theme={theme}>
@@ -130,7 +136,7 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="./Register" variant="body2">
                   {"Não tem conta? cadastre-se"}
                 </Link>
               </Grid>
@@ -141,3 +147,4 @@ export default function Login() {
     </ThemeProvider>
   );
 }
+export default Login;
